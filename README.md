@@ -55,7 +55,8 @@ All examples need bdbOrm initialized as described in usage
 
 ```javascript
 // from the defined models in our bdbOrm we create an asset with Alice as owner
-bdbOrm.myModel.create({
+bdbOrm.myModel
+    .create({
         keypair: aliceKeypair,
         metadata: { key: 'metadataValue' }
     })
@@ -75,7 +76,8 @@ bdbOrm.myModel.create({
 ```javascript
 // get all objects with retrieve()
 // or get a specific object with retrieve(object.id)
-bdbOrm.myModel.retrieve()
+bdbOrm.myModel
+    .retrieve()
     .then(assets => {
         // assets is an array of myModel
         console.log(assets.map(asset => asset.id))
@@ -87,7 +89,8 @@ bdbOrm.myModel.retrieve()
 
 ```javascript
 // create an asset with Alice as owner
-bdbOrm.myModel.create({
+bdbOrm.myModel
+    .create({
         keypair: aliceKeypair,
         metadata: { key: 'metadataValue' }
     })
@@ -95,7 +98,7 @@ bdbOrm.myModel.create({
         // lets append update the metadata of our asset
         // since we use a blockchain, we can only append
         return asset.append({
-            toKeypair: aliceKeypair.publicKey,
+            toPublicKey: aliceKeypair.publicKey,
             keypair: aliceKeypair,
             metadata: { key: 'updatedValue' }
         })
@@ -113,7 +116,8 @@ bdbOrm.myModel.create({
 
 ```javascript
 // create an asset with Alice as owner
-bdbOrm.myModel.create({
+bdbOrm.myModel
+    .create({
         keypair: aliceKeypair,
         metadata: { key: 'metadataValue' }
     })
@@ -124,7 +128,7 @@ bdbOrm.myModel.create({
             keypair: aliceKeypair
         })
     })
-    .then((burnedAsset)=>{
+    .then(burnedAsset => {
         // asset is now tagged as "burned"
         console.log(burnedAsset.metadata)
     })

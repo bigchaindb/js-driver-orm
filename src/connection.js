@@ -7,7 +7,7 @@ export default class Connection {
         this.conn = new driver.Connection(path, headers)
     }
 
-    getAssetId(tx) {
+    getAssetId(tx) { // eslint-disable-line class-methods-use-this
         return tx.operation === 'CREATE' ? tx.id : tx.asset.id
     }
 
@@ -131,5 +131,4 @@ export default class Connection {
                 return txList
             })
     }
-
 }
