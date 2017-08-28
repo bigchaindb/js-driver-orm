@@ -4,12 +4,12 @@
 
 CRAB is the CRUD model in databases applied to blockchains:
 
-| Database     | Blockchain  |
-| ------------ | ----------- |
-| **C**reate   | **C**reate  |
-| **R**eceive  | **R**eceive |
-| **U**pdate   | **A**ppend  |
-| **D**elete   | **B**urn    |
+| Database   | Blockchain   |
+| ---------- | ------------ |
+| **C**reate | **C**reate   |
+| **R**ead   | **R**etrieve |
+| **U**pdate | **A**ppend   |
+| **D**elete | **B**urn     |
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@ CRAB is the CRUD model in databases applied to blockchains:
 - [Usage](#usage)
 - [Examples](#examples)
     - [Create an asset](#example-create-an-asset)
-    - [Receive assets](#example-receive-assets)
+    - [Retrieve assets](#example-retrieve-assets)
     - [Append a transaction](#example-append-a-transaction)
     - [Burn an asset](#example-burn-an-asset)
 - [License](#license)
@@ -71,7 +71,7 @@ bdbOrm.myModel
     })
 ```
 
-### Example: Receive assets
+### Example: Retrieve assets
 
 ```javascript
 // get all objects with retrieve()
