@@ -1,6 +1,12 @@
-# BigchainDB-ORM
+# [![js-bigchaindb-driver](media/repo-banner@2x.png)](https://www.bigchaindb.com)
 
 > A CRAB-based ORM for BigchainDB.
+
+[![npm](https://img.shields.io/npm/v/bigchaindb-orm.svg)](https://www.npmjs.com/package/bigchaindb-orm)
+[![codecov](https://codecov.io/gh/bigchaindb/js-driver-orm/branch/master/graph/badge.svg)](https://codecov.io/gh/bigchaindb/js-driver-orm)
+[![js ascribe](https://img.shields.io/badge/js-ascribe-39BA91.svg)](https://github.com/ascribe/javascript)
+[![Build Status](https://travis-ci.org/bigchaindb/js-driver-orm.svg?branch=master)](https://travis-ci.org/bigchaindb/js-driver-orm)
+[![Greenkeeper badge](https://badges.greenkeeper.io/bigchaindb/js-driver-orm.svg)](https://greenkeeper.io/)
 
 CRAB is the CRUD model in databases applied to blockchains:
 
@@ -32,7 +38,7 @@ $ npm install bigchaindb-orm
 
 ```javascript
 // import bigchaindb-orm
-import * as Orm from 'bigchaindb-orm'
+import Orm from 'bigchaindb-orm'
 // connect to BigchainDB
 const bdbOrm = new Orm(
     "https://test.ipdb.io/api/v1/",
@@ -61,7 +67,7 @@ bdbOrm.myModel
         metadata: { key: 'metadataValue' }
     })
     .then(asset => {
-        /* 
+        /*
             asset is an object with all our data and functions
             asset.id equals the id of the asset
             asset.metadata is metadata of the last (unspent) transaction
