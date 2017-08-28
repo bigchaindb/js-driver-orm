@@ -20,15 +20,15 @@ export default class OrmObject {
             .then(assets =>
                 Promise.all(assets.map(asset =>
                     this._connection.getSortedTransactions(asset.id)
-                        .then(txList => {
-                            return new OrmObject(
+                        .then(txList =>
+                            new OrmObject(
                                 this._name,
                                 this._shema,
                                 this._connection,
                                 this._appId,
                                 txList
                             )
-                        })
+                        )
                 ))
             )
     }
@@ -42,22 +42,23 @@ export default class OrmObject {
             'shema': this._shema,
             'id': `id:${this._appId}:${uuid()}`
         }
-        return this._connection.createTransaction(
-            inputs.keypair.publicKey,
-            inputs.keypair.privateKey,
-            assetPayload,
-            inputs.metadata
-        )
+        return this._connection
+            .createTransaction(
+                inputs.keypair.publicKey,
+                inputs.keypair.privateKey,
+                assetPayload,
+                inputs.metadata
+            )
             .then(tx => Promise.resolve(
-                this._connection.getSortedTransactions(tx.id).then((txList) => {
-                    return new OrmObject(
+                this._connection.getSortedTransactions(tx.id).then((txList) =>
+                    new OrmObject(
                         this._name,
                         this._shema,
                         this._connection,
                         this._appId,
                         txList
                     )
-                })
+                )
             ))
     }
 
@@ -65,51 +66,52 @@ export default class OrmObject {
         if (inputs === undefined) {
             console.error('inputs missing')
         }
-        return this._connection.transferTransaction(
-            this.transactionList[this.transactionList.length - 1],
-            inputs.keypair.publicKey,
-            inputs.keypair.privateKey,
-            inputs.toPublicKey,
-            inputs.metadata
-        )
+        return this._connection
+            .transferTransaction(
+                this.transactionList[this.transactionList.length - 1],
+                inputs.keypair.publicKey,
+                inputs.keypair.privateKey,
+                inputs.toPublicKey,
+                inputs.metadata
+            )
             .then(() => Promise.resolve(
                 this._connection.getSortedTransactions(this.transactionList[0].id)
-                    .then((txList) => {
-                        return new OrmObject(
+                    .then((txList) =>
+                        new OrmObject(
                             this._name,
                             this._shema,
                             this._connection,
                             this._appId,
                             txList
                         )
-                    })
-            ))
+                    ))
+            )
     }
 
-    burn(inputs){
+    burn(inputs) {
         if (inputs === undefined) {
             console.error('inputs missing')
         }
         const randomKeypair = new driver.Ed25519Keypair()
-        return this._connection.transferTransaction(
-            this.transactionList[this.transactionList.length - 1],
-            inputs.keypair.publicKey,
-            inputs.keypair.privateKey,
-            randomKeypair.publicKey,
-            { status: 'BURNED' }
-        )
+        return this._connection
+            .transferTransaction(
+                this.transactionList[this.transactionList.length - 1],
+                inputs.keypair.publicKey,
+                inputs.keypair.privateKey,
+                randomKeypair.publicKey,
+                { status: 'BURNED' }
+            )
             .then(() => Promise.resolve(
                 this._connection.getSortedTransactions(this.transactionList[0].id)
-                    .then((txList) => {
-                        return new OrmObject(
+                    .then((txList) =>
+                        new OrmObject(
                             this._name,
                             this._shema,
                             this._connection,
                             this._appId,
                             txList
                         )
-                    })
+                    )
             ))
     }
-
 }
