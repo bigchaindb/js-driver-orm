@@ -44,7 +44,7 @@ const bdbOrm = new Orm(
     "https://test.ipdb.io/api/v1/",
     {
         app_id: "Get one from developers.ipdb.io",
-        app_key: "Same as app_id"
+        app_key: "Get one from developers.ipdb.io"
     }
 )
 // define our models and assets
