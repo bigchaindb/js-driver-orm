@@ -47,7 +47,10 @@ const bdbOrm = new Orm(
         app_key: "Same as app_id"
     }
 )
-// define our models and assets
+// define(<model name>,<additional information>)
+// <model name>: represents the name of model you want to store
+// <additional inf.>: any information you want to pass about the model (can be string or object)
+// note: cannot be changed once set!
 bdbOrm.define("myModel", "https://schema.org/v1/myModel")
 // create a public and private key for Alice
 const aliceKeypair = new driver.Ed25519Keypair()
@@ -64,14 +67,14 @@ All examples need bdbOrm initialized as described in usage
 bdbOrm.myModel
     .create({
         keypair: aliceKeypair,
-        metadata: { key: 'metadataValue' }
+        data: { key: 'dataValue' }
     })
     .then(asset => {
         /*
             asset is an object with all our data and functions
             asset.id equals the id of the asset
-            asset.metadata is metadata of the last (unspent) transaction
-            asset.transactionList gives the full transaction history
+            asset.data is data of the last (unspent) transaction
+            asset.txList gives the full raw transaction history
         */
         console.log(asset.id)
     })
@@ -98,22 +101,22 @@ bdbOrm.myModel
 bdbOrm.myModel
     .create({
         keypair: aliceKeypair,
-        metadata: { key: 'metadataValue' }
+        data: { key: 'dataValue' }
     })
     .then(asset => {
-        // lets append update the metadata of our asset
+        // lets append update the data of our asset
         // since we use a blockchain, we can only append
         return asset.append({
             toPublicKey: aliceKeypair.publicKey,
             keypair: aliceKeypair,
-            metadata: { key: 'updatedValue' }
+            data: { key: 'updatedValue' }
         })
     })   
     .then(updatedAsset => {
         // updatedAsset contains the last (unspent) state
         // of our asset so any actions
         // need to be done to updatedAsset
-        console.log(updatedAsset.metadata)
+        console.log(updatedAsset.data)
     })
 ```
 
@@ -125,7 +128,7 @@ bdbOrm.myModel
 bdbOrm.myModel
     .create({
         keypair: aliceKeypair,
-        metadata: { key: 'metadataValue' }
+        data: { key: 'dataValue' }
     })
     .then(asset => {
         // lets burn the asset by assigning to a random keypair
@@ -136,7 +139,7 @@ bdbOrm.myModel
     })
     .then(burnedAsset => {
         // asset is now tagged as "burned"
-        console.log(burnedAsset.metadata)
+        console.log(burnedAsset.data)
     })
 ```
 

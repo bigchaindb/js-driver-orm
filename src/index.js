@@ -6,10 +6,10 @@ export default class Orm {
         this.connection = new Connection(connectionUrl)
         this.appId = headers.app_id
     }
-    define(modelName, modelShema) {
+    define(modelName, modelSchema) {
         this[modelName] = new OrmObject(
             modelName,
-            modelShema,
+            modelSchema,
             this.connection,
             this.appId
         )
