@@ -2,15 +2,15 @@ import * as driver from 'bigchaindb-driver' // eslint-disable-line import/no-nam
 import uuid from 'uuid/v4'
 
 export default class OrmObject {
-    constructor(modelName, modelShema, connection, appId = '', transactionList = []) {
+    constructor(modelName, modelSchema, connection, appId = '', transactionList = []) {
         this._name = modelName
-        this._shema = modelShema
+        this._schema = modelSchema
         this._connection = connection
         this._appId = appId
         if (transactionList.length) {
-            this.transactionList = transactionList
+            this.txHistory = transactionList
             this.id = transactionList[0].asset.data[`${this._appId}-${this._name}`].id
-            this.metadata = transactionList[transactionList.length - 1].metadata
+            this.data = Object.assign({}, ...transactionList.map(tx => (tx.metadata)))
         }
     }
 
@@ -23,7 +23,7 @@ export default class OrmObject {
                         .then(txList =>
                             new OrmObject(
                                 this._name,
-                                this._shema,
+                                this._schema,
                                 this._connection,
                                 this._appId,
                                 txList
@@ -39,7 +39,7 @@ export default class OrmObject {
         }
         const assetPayload = {}
         assetPayload[`${this._appId}-${this._name}`] = {
-            'shema': this._shema,
+            'schema': this._schema,
             'id': `id:${this._appId}:${uuid()}`
         }
         return this._connection
@@ -47,13 +47,13 @@ export default class OrmObject {
                 inputs.keypair.publicKey,
                 inputs.keypair.privateKey,
                 assetPayload,
-                inputs.metadata
+                inputs.data
             )
             .then(tx => Promise.resolve(
                 this._connection.getSortedTransactions(tx.id).then((txList) =>
                     new OrmObject(
                         this._name,
-                        this._shema,
+                        this._schema,
                         this._connection,
                         this._appId,
                         txList
@@ -68,18 +68,18 @@ export default class OrmObject {
         }
         return this._connection
             .transferTransaction(
-                this.transactionList[this.transactionList.length - 1],
+                this.txHistory[this.txHistory.length - 1],
                 inputs.keypair.publicKey,
                 inputs.keypair.privateKey,
                 inputs.toPublicKey,
-                inputs.metadata
+                inputs.data
             )
             .then(() => Promise.resolve(
-                this._connection.getSortedTransactions(this.transactionList[0].id)
+                this._connection.getSortedTransactions(this.txHistory[0].id)
                     .then((txList) =>
                         new OrmObject(
                             this._name,
-                            this._shema,
+                            this._schema,
                             this._connection,
                             this._appId,
                             txList
@@ -95,18 +95,18 @@ export default class OrmObject {
         const randomKeypair = new driver.Ed25519Keypair()
         return this._connection
             .transferTransaction(
-                this.transactionList[this.transactionList.length - 1],
+                this.txHistory[this.txHistory.length - 1],
                 inputs.keypair.publicKey,
                 inputs.keypair.privateKey,
                 randomKeypair.publicKey,
                 { status: 'BURNED' }
             )
             .then(() => Promise.resolve(
-                this._connection.getSortedTransactions(this.transactionList[0].id)
+                this._connection.getSortedTransactions(this.txHistory[0].id)
                     .then((txList) =>
                         new OrmObject(
                             this._name,
-                            this._shema,
+                            this._schema,
                             this._connection,
                             this._appId,
                             txList

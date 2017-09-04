@@ -4,8 +4,8 @@ import * as driver from 'bigchaindb-driver'
 import Orm from '../src/index'
 
 
-test('Create asset with metadata', t => {
-    const expected = { key: 'metadataValue' }
+test('Create asset with data', t => {
+    const expected = { key: 'dataValue' }
 
     const bdbOrm = new Orm('http://localhost:9984/api/v1/', 'testAppId')
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
@@ -14,14 +14,14 @@ test('Create asset with metadata', t => {
     return bdbOrm.myModel
         .create({
             keypair: aliceKeypair,
-            metadata: expected
+            data: expected
         })
-        .then(res => t.deepEqual(res.metadata, expected))
+        .then(res => t.deepEqual(res.data, expected))
 })
 
 
 test('Retrieve asset', t => {
-    const expected = { key: 'metadataValue' }
+    const expected = { key: 'dataValue' }
 
     const bdbOrm = new Orm('http://localhost:9984/api/v1/', 'testAppId')
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
@@ -30,14 +30,18 @@ test('Retrieve asset', t => {
     return bdbOrm.myModel
         .create({
             keypair: aliceKeypair,
-            metadata: expected
+            data: expected
         })
         .then(asset => bdbOrm.myModel.retrieve(asset.id))
-        .then(res => t.deepEqual(res[0].metadata, expected))
+        .then(res => t.deepEqual(res[0].data, expected))
 })
 
 test('Append asset', t => {
-    const expected = { key: 'updatedValue' }
+    const expected = {
+        key: 'dataValue',
+        keyToUpdate: 'updatedDataValue',
+        newKey: 'newDataValue'
+    }
 
     const bdbOrm = new Orm('http://localhost:9984/api/v1/', 'testAppId')
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
@@ -46,21 +50,21 @@ test('Append asset', t => {
     return bdbOrm.myModel
         .create({
             keypair: aliceKeypair,
-            metadata: { key: 'metadataValue' }
+            data: { key: 'dataValue', keyToUpdate: 'dataUpdatableValue' }
         })
         .then(asset => asset.append({
             toPublicKey: aliceKeypair.publicKey,
             keypair: aliceKeypair,
-            metadata: expected
+            data: { keyToUpdate: 'updatedDataValue', newKey: 'newDataValue' }
         }))
         .then(res => {
-            t.deepEqual(res.metadata, expected)
-            t.deepEqual(res.transactionList.length, 2)
+            t.deepEqual(res.data, expected)
+            t.deepEqual(res.txHistory.length, 2)
         })
 })
 
 test('Burn asset', t => {
-    const expected = { status: 'BURNED' }
+    const expected = { key: 'dataValue', status: 'BURNED' }
 
     const bdbOrm = new Orm('http://localhost:9984/api/v1/', 'testAppId')
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
@@ -69,15 +73,15 @@ test('Burn asset', t => {
     return bdbOrm.myModel
         .create({
             keypair: aliceKeypair,
-            metadata: { key: 'metadataValue' }
+            data: { key: 'dataValue' }
         })
         .then(asset => asset.burn({
             keypair: aliceKeypair
         }))
         .then(res => {
-            t.deepEqual(res.metadata, expected)
-            t.deepEqual(res.transactionList.length, 2)
-            t.not(res.transactionList[res.transactionList.length - 1]
+            t.deepEqual(res.data, expected)
+            t.deepEqual(res.txHistory.length, 2)
+            t.not(res.txHistory[res.txHistory.length - 1]
                 .outputs[0].public_keys[0], aliceKeypair.publicKey)
         })
 })
