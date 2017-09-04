@@ -1,6 +1,6 @@
 {
   "name": "bigchaindb-orm",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A CRAB-based ORM for BigchainDB",
   "homepage": "https://www.bigchaindb.com/",
   "bugs": "https://github.com/bigchaindb/js-driver-orm/issues",
