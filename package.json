@@ -35,7 +35,7 @@
     "eslint-config-ascribe": "^3.0.4",
     "eslint-plugin-import": "^2.7.0",
     "nyc": "^11.1.0",
-    "release-it": "^2.7.3",
+    "release-it": "^3.0.0",
     "rimraf": "^2.5.4",
     "sinon": "^3.2.1",
     "webpack": "^3.5.2"
