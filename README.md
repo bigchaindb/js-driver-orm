@@ -74,7 +74,9 @@ bdbOrm.myModel
             asset is an object with all our data and functions
             asset.id equals the id of the asset
             asset.data is data of the last (unspent) transaction
-            asset.txList gives the full raw transaction history
+            asset.transactionHistory gives the full raw transaction history
+            Note: Raw transaction history has different object structure then
+            asset. You can find specific data change in metadata property.
         */
         console.log(asset.id)
     })
