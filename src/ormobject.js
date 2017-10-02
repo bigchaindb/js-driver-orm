@@ -8,7 +8,7 @@ export default class OrmObject {
         this._connection = connection
         this._appId = appId
         if (transactionList.length) {
-            this.txHistory = transactionList
+            this.transactionHistory = transactionList
             this.id = transactionList[0].asset.data[`${this._appId}-${this._name}`].id
             this.data = Object.assign({}, ...transactionList.map(tx => (tx.metadata)))
         }
@@ -68,14 +68,14 @@ export default class OrmObject {
         }
         return this._connection
             .transferTransaction(
-                this.txHistory[this.txHistory.length - 1],
+                this.transactionHistory[this.transactionHistory.length - 1],
                 inputs.keypair.publicKey,
                 inputs.keypair.privateKey,
                 inputs.toPublicKey,
                 inputs.data
             )
             .then(() => Promise.resolve(
-                this._connection.getSortedTransactions(this.txHistory[0].id)
+                this._connection.getSortedTransactions(this.transactionHistory[0].id)
                     .then((txList) =>
                         new OrmObject(
                             this._name,
@@ -95,14 +95,14 @@ export default class OrmObject {
         const randomKeypair = new driver.Ed25519Keypair()
         return this._connection
             .transferTransaction(
-                this.txHistory[this.txHistory.length - 1],
+                this.transactionHistory[this.transactionHistory.length - 1],
                 inputs.keypair.publicKey,
                 inputs.keypair.privateKey,
                 randomKeypair.publicKey,
                 { status: 'BURNED' }
             )
             .then(() => Promise.resolve(
-                this._connection.getSortedTransactions(this.txHistory[0].id)
+                this._connection.getSortedTransactions(this.transactionHistory[0].id)
                     .then((txList) =>
                         new OrmObject(
                             this._name,

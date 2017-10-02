@@ -59,7 +59,7 @@ test('Append asset', t => {
         }))
         .then(res => {
             t.deepEqual(res.data, expected)
-            t.deepEqual(res.txHistory.length, 2)
+            t.deepEqual(res.transactionHistory.length, 2)
         })
 })
 
@@ -80,8 +80,8 @@ test('Burn asset', t => {
         }))
         .then(res => {
             t.deepEqual(res.data, expected)
-            t.deepEqual(res.txHistory.length, 2)
-            t.not(res.txHistory[res.txHistory.length - 1]
+            t.deepEqual(res.transactionHistory.length, 2)
+            t.not(res.transactionHistory[res.transactionHistory.length - 1]
                 .outputs[0].public_keys[0], aliceKeypair.publicKey)
         })
 })
