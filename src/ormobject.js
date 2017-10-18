@@ -1,5 +1,8 @@
-import * as driver from 'bigchaindb-driver' // eslint-disable-line import/no-namespace
 import uuid from 'uuid/v4'
+
+// The likelihood to generate a vanity address that is 11 times "Burn" is extremely low:
+// - https://en.bitcoin.it/wiki/Vanitygen#Use_of_vanitygen_to_try_to_attack_addresses
+const BURN_ADDRESS = 'BurnBurnBurnBurnBurnBurnBurnBurnBurnBurnBurn'
 
 export default class OrmObject {
     constructor(modelName, modelSchema, connection, appId = '', transactionList = []) {
@@ -92,13 +95,13 @@ export default class OrmObject {
         if (inputs === undefined) {
             console.error('inputs missing')
         }
-        const randomKeypair = new driver.Ed25519Keypair()
+
         return this._connection
             .transferTransaction(
                 this.transactionHistory[this.transactionHistory.length - 1],
                 inputs.keypair.publicKey,
                 inputs.keypair.privateKey,
-                randomKeypair.publicKey,
+                BURN_ADDRESS,
                 { status: 'BURNED' }
             )
             .then(() => Promise.resolve(
