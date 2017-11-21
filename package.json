@@ -1,6 +1,6 @@
 {
   "name": "bigchaindb-orm",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "A CRAB-based ORM for BigchainDB",
   "homepage": "https://www.bigchaindb.com/",
   "bugs": "https://github.com/bigchaindb/js-driver-orm/issues",
@@ -17,7 +17,7 @@
     "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "ava": "^0.22.0",
+    "ava": "^0.23.0",
     "babel-cli": "^6.24.1",
     "babel-eslint": "^8.0.0",
     "babel-loader": "^7.1.1",
@@ -30,15 +30,15 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2015-no-commonjs": "^0.0.2",
     "babel-runtime": "^6.26.0",
-    "cross-env": "^5.0.3",
-    "eslint": "^4.3.0",
+    "cross-env": "^5.1.1",
+    "eslint": "^4.11.0",
     "eslint-config-ascribe": "^3.0.4",
-    "eslint-plugin-import": "^2.7.0",
-    "nyc": "^11.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "nyc": "^11.3.0",
     "release-it": "^4.4.1",
-    "rimraf": "^2.5.4",
+    "rimraf": "^2.6.2",
     "sinon": "^4.0.0",
-    "webpack": "^3.5.2"
+    "webpack": "^3.8.1"
   },
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js ./src",
@@ -49,10 +49,10 @@
     "clean": "rimraf dist/bundle dist/node",
     "test": "npm run lint && nyc ava test/ && npm run thanks && npm run report-coverage",
     "thanks": "cowsay Hi, thanks for your interest in BigchainDB. We appreciate your contribution!",
-    "prepublishOnly": "npm update && npm run build",
-    "release": "./node_modules/release-it/bin/release.js --src.tagName='v%s' --github.release --npm.publish --non-interactive",
-    "release-minor": "./node_modules/release-it/bin/release.js minor --src.tagName='v%s' --github.release --npm.publish --non-interactive",
-    "release-major": "./node_modules/release-it/bin/release.js major --src.tagName='v%s' --github.release --npm.publish --non-interactive",
+    "prepublishOnly": "npm run build",
+    "release": "./node_modules/release-it/bin/release-it.js --src.tagName='v%s' --github.release --npm.publish --non-interactive",
+    "release-minor": "./node_modules/release-it/bin/release-it.js minor --src.tagName='v%s' --github.release --npm.publish --non-interactive",
+    "release-major": "./node_modules/release-it/bin/release-it.js major --src.tagName='v%s' --github.release --npm.publish --non-interactive",
     "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov"
   },
   "keywords": [
