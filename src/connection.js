@@ -29,9 +29,7 @@ export default class Connection {
 
     listBlocks(transactionId) {
         return this.conn.listBlocks(transactionId)
-            .then(blockIds => Promise.all(
-                blockIds.map(blockId => this.conn.getBlock(blockId))
-            ))
+            .then(blockIds => Promise.all(blockIds.map(blockId => this.conn.getBlock(blockId))))
     }
 
     listVotes(blockId) {
@@ -49,8 +47,7 @@ export default class Connection {
                 payload,
                 metadata,
                 [
-                    driver.Transaction.makeOutput(
-                        driver.Transaction.makeEd25519Condition(publicKey))
+                    driver.Transaction.makeOutput(driver.Transaction.makeEd25519Condition(publicKey))
                 ],
                 publicKey
             )
@@ -73,9 +70,7 @@ export default class Connection {
                 tx,
                 metadata,
                 [
-                    driver.Transaction.makeOutput(
-                        driver.Transaction.makeEd25519Condition(toPublicKey)
-                    )
+                    driver.Transaction.makeOutput(driver.Transaction.makeEd25519Condition(toPublicKey))
                 ],
                 0
             )
@@ -103,8 +98,7 @@ export default class Connection {
                         if (input.fulfills) {
                             inputTransactions.push(input.fulfills.transaction_id)
                         }
-                    })
-                )
+                    }))
                 const unspents = txList.filter((tx) => inputTransactions.indexOf(tx.id) === -1)
                 if (unspents.length) {
                     let tipTransaction = unspents[0]
@@ -120,13 +114,15 @@ export default class Connection {
                         if (!tipTransactionId) {
                             break
                         }
-                        tipTransaction = txList.filter((tx) => // eslint-disable-line no-loop-func
+                        tipTransaction = txList.filter((tx) => // eslint-disable-line no-loop-func, prefer-destructuring
                             tx.id === tipTransactionId)[0]
                     }
                     return sortedTxList.reverse()
                 } else {
-                    console.error('something went wrong while sorting transactions',
-                        txList, inputTransactions)
+                    console.error(
+                        'something went wrong while sorting transactions',
+                        txList, inputTransactions
+                    )
                 }
                 return txList
             })
