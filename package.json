@@ -41,7 +41,7 @@
     "webpack": "^3.8.1"
   },
   "scripts": {
-    "lint": "./node_modules/eslint/bin/eslint.js ./src",
+    "lint": "./node_modules/eslint/bin/eslint.js ./{src,test}",
     "build": "npm run clean && npm run build:cjs && npm run build:dist",
     "build:bundle": "webpack",
     "build:cjs": "cross-env BABEL_ENV=cjs babel ./src -d dist/node",

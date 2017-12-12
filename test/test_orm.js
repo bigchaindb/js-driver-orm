@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import * as driver from 'bigchaindb-driver'
+import * as driver from 'bigchaindb-driver' // eslint-disable-line import/no-namespace
 import Orm from '../src/index'
 
 
@@ -8,8 +8,8 @@ test('Create asset with data', t => {
     const expected = { key: 'dataValue' }
 
     const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
-        app_id: "",
-        app_key: ""
+        app_id: '',
+        app_key: ''
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
@@ -27,8 +27,8 @@ test('Retrieve asset', t => {
     const expected = { key: 'dataValue' }
 
     const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
-        app_id: "",
-        app_key: ""
+        app_id: '',
+        app_key: ''
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
@@ -50,8 +50,8 @@ test('Append asset', t => {
     }
 
     const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
-        app_id: "",
-        app_key: ""
+        app_id: '',
+        app_key: ''
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
@@ -76,8 +76,8 @@ test('Burn asset', t => {
     const expected = { key: 'dataValue', status: 'BURNED' }
 
     const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
-        app_id: "",
-        app_key: ""
+        app_id: '',
+        app_key: ''
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
