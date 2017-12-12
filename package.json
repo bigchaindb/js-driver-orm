@@ -32,7 +32,7 @@
     "babel-runtime": "^6.26.0",
     "cross-env": "^5.1.1",
     "eslint": "^4.11.0",
-    "eslint-config-ascribe": "^3.0.4",
+    "eslint-config-ascribe": "^3.0.5",
     "eslint-plugin-import": "^2.8.0",
     "nyc": "^11.3.0",
     "release-it": "^5.1.2",
@@ -41,7 +41,7 @@
     "webpack": "^3.8.1"
   },
   "scripts": {
-    "lint": "./node_modules/eslint/bin/eslint.js ./src",
+    "lint": "./node_modules/eslint/bin/eslint.js ./{src,test}",
     "build": "npm run clean && npm run build:cjs && npm run build:dist",
     "build:bundle": "webpack",
     "build:cjs": "cross-env BABEL_ENV=cjs babel ./src -d dist/node",

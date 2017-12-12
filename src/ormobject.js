@@ -30,10 +30,7 @@ export default class OrmObject {
                                 this._connection,
                                 this._appId,
                                 txList
-                            )
-                        )
-                ))
-            )
+                            )))))
     }
 
     create(inputs) {
@@ -52,17 +49,14 @@ export default class OrmObject {
                 assetPayload,
                 inputs.data
             )
-            .then(tx => Promise.resolve(
-                this._connection.getSortedTransactions(tx.id).then((txList) =>
-                    new OrmObject(
-                        this._name,
-                        this._schema,
-                        this._connection,
-                        this._appId,
-                        txList
-                    )
-                )
-            ))
+            .then(tx => Promise.resolve(this._connection.getSortedTransactions(tx.id).then((txList) =>
+                new OrmObject(
+                    this._name,
+                    this._schema,
+                    this._connection,
+                    this._appId,
+                    txList
+                ))))
     }
 
     append(inputs) {
@@ -77,8 +71,8 @@ export default class OrmObject {
                 inputs.toPublicKey,
                 inputs.data
             )
-            .then(() => Promise.resolve(
-                this._connection.getSortedTransactions(this.transactionHistory[0].id)
+            .then(() =>
+                Promise.resolve(this._connection.getSortedTransactions(this.transactionHistory[0].id)
                     .then((txList) =>
                         new OrmObject(
                             this._name,
@@ -86,9 +80,7 @@ export default class OrmObject {
                             this._connection,
                             this._appId,
                             txList
-                        )
-                    ))
-            )
+                        ))))
     }
 
     burn(inputs) {
@@ -104,8 +96,8 @@ export default class OrmObject {
                 BURN_ADDRESS,
                 { status: 'BURNED' }
             )
-            .then(() => Promise.resolve(
-                this._connection.getSortedTransactions(this.transactionHistory[0].id)
+            .then(() =>
+                Promise.resolve(this._connection.getSortedTransactions(this.transactionHistory[0].id)
                     .then((txList) =>
                         new OrmObject(
                             this._name,
@@ -113,8 +105,6 @@ export default class OrmObject {
                             this._connection,
                             this._appId,
                             txList
-                        )
-                    )
-            ))
+                        ))))
     }
 }
