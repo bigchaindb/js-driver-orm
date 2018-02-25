@@ -38,7 +38,7 @@
     "release-it": "^7.0.2",
     "rimraf": "^2.6.2",
     "sinon": "^4.3.0",
-    "webpack": "^3.8.1"
+    "webpack": "^4.0.0"
   },
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js ./{src,test}",
