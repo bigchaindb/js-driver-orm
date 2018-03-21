@@ -37,7 +37,7 @@
     "nyc": "^11.3.0",
     "release-it": "^7.0.2",
     "rimraf": "^2.6.2",
-    "sinon": "^4.3.0",
+    "sinon": "^5.0.0",
     "webpack": "^3.8.1"
   },
   "scripts": {
