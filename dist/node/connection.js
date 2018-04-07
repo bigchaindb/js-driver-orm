@@ -88,7 +88,7 @@ var Connection = function () {
                 // sign/fulfill the transaction
                 var txSigned = driver.Transaction.signTransaction(tx, privateKey);
                 return this.conn.postTransactionCommit(txSigned).then(function () {
-                    return txSigned.id;
+                    return txSigned;
                 });
             } catch (error) {
                 return Promise.reject(error);
@@ -103,7 +103,7 @@ var Connection = function () {
                 var txTransferSigned = driver.Transaction.signTransaction(txTransfer, fromPrivateKey);
                 // send it off to BigchainDB
                 return this.conn.postTransactionCommit(txTransferSigned).then(function () {
-                    return txTransferSigned.id;
+                    return txTransferSigned;
                 });
             } catch (error) {
                 return Promise.reject(error);
