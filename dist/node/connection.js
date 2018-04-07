@@ -98,8 +98,7 @@ var Connection = function () {
         key: 'transferTransaction',
         value: function transferTransaction(tx, fromPublicKey, fromPrivateKey, toPublicKey, metadata) {
             try {
-                var txTransfer = driver.Transaction.makeTransferTransaction(tx, metadata, [driver.Transaction.makeOutput(driver.Transaction.makeEd25519Condition(toPublicKey))], 0);
-
+                var txTransfer = driver.Transaction.makeTransferTransaction([{ 'tx': tx, 'output_index': 0 }], [driver.Transaction.makeOutput(driver.Transaction.makeEd25519Condition(toPublicKey))], metadata);
                 var txTransferSigned = driver.Transaction.signTransaction(txTransfer, fromPrivateKey);
                 // send it off to BigchainDB
                 return this.conn.postTransactionCommit(txTransferSigned).then(function () {
