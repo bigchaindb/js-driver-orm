@@ -63,14 +63,10 @@ export default class Connection {
     transferTransaction(tx, fromPublicKey, fromPrivateKey, toPublicKey, metadata) {
         try {
             const txTransfer = driver.Transaction.makeTransferTransaction(
-                tx,
+                [{ 'tx': tx, 'output_index': 0 }],
+                [driver.Transaction.makeOutput(driver.Transaction.makeEd25519Condition(toPublicKey))],
                 metadata,
-                [
-                    driver.Transaction.makeOutput(driver.Transaction.makeEd25519Condition(toPublicKey))
-                ],
-                0
             )
-
             const txTransferSigned = driver.Transaction.signTransaction(txTransfer, fromPrivateKey)
             // send it off to BigchainDB
             return this.conn.postTransactionCommit(txTransferSigned).then(() => txTransferSigned)
