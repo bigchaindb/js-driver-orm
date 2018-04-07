@@ -110,4 +110,3 @@ var OrmObject = function () {
 }();
 
 exports.default = OrmObject;
-module.exports = exports['default'];

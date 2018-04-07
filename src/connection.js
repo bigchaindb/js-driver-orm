@@ -40,7 +40,7 @@ export default class Connection {
         return this.conn.searchAssets(text)
     }
 
-    createTransaction(publicKey, privateKey, payload, metadata) {
+    async createTransaction(publicKey, privateKey, payload, metadata) {
         try {
             // Create a transation
             const tx = driver.Transaction.makeCreateTransaction(
@@ -54,16 +54,14 @@ export default class Connection {
 
             // sign/fulfill the transaction
             const txSigned = driver.Transaction.signTransaction(tx, privateKey)
-
-            // send it off to BigchainDB
-            return this.conn.postTransactionCommit(txSigned)
-                .then(() => txSigned)
+            await this.conn.postTransactionCommit(txSigned)
+            return Promise.resolve(txSigned.id)
         } catch (error) {
             return Promise.reject(error)
         }
     }
 
-    transferTransaction(tx, fromPublicKey, fromPrivateKey, toPublicKey, metadata) {
+    async transferTransaction(tx, fromPublicKey, fromPrivateKey, toPublicKey, metadata) {
         try {
             const txTransfer = driver.Transaction.makeTransferTransaction(
                 tx,
@@ -76,8 +74,8 @@ export default class Connection {
 
             const txTransferSigned = driver.Transaction.signTransaction(txTransfer, fromPrivateKey)
             // send it off to BigchainDB
-            return this.conn.postTransactionCommit(txTransferSigned)
-                .then(() => txTransferSigned)
+            await this.conn.postTransactionCommit(txTransferSigned)
+            return txTransferSigned.id
         } catch (error) {
             return Promise.reject(error)
         }

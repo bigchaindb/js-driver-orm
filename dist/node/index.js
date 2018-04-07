@@ -40,4 +40,3 @@ var Orm = function () {
 }();
 
 exports.default = Orm;
-module.exports = exports['default'];
