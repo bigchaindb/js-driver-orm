@@ -56,8 +56,7 @@ export default class Connection {
             const txSigned = driver.Transaction.signTransaction(tx, privateKey)
 
             // send it off to BigchainDB
-            return this.conn.postTransaction(txSigned)
-                .then(() => this.conn.pollStatusAndFetchTransaction(txSigned.id))
+            return this.conn.postTransactionCommit(txSigned)
                 .then(() => txSigned)
         } catch (error) {
             return Promise.reject(error)
@@ -77,9 +76,7 @@ export default class Connection {
 
             const txTransferSigned = driver.Transaction.signTransaction(txTransfer, fromPrivateKey)
             // send it off to BigchainDB
-            return this.conn.postTransaction(txTransferSigned)
-                .then(() =>
-                    this.conn.pollStatusAndFetchTransaction(txTransferSigned.id))
+            return this.conn.postTransactionCommit(txTransferSigned)
                 .then(() => txTransferSigned)
         } catch (error) {
             return Promise.reject(error)
