@@ -154,7 +154,7 @@ var Connection = function () {
                                 break;
                             }
                             tipTransaction = txList.filter(function (tx) {
-                                return (// eslint-disable-line no-loop-func
+                                return (// eslint-disable-line no-loop-func, prefer-destructuring
                                     tx.id === tipTransactionId
                                 );
                             })[0];
