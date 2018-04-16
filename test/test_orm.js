@@ -12,7 +12,7 @@ test('Create asset with data', t => {
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = bdbOrm.driver.Ed25519Keypair()
+    const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
     return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
@@ -31,13 +31,13 @@ test('Retrieve asset', t => {
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = bdbOrm.driver.Ed25519Keypair()
+    const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
     return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
             data: expected
         })
-        .then(asset => bdbOrm.myModel.retrieve(asset.id))
+        .then(asset => bdbOrm.models.myModel.retrieve(asset.id))
         .then(res => t.deepEqual(res[0].data, expected))
 })
 
@@ -54,7 +54,7 @@ test('Append asset', t => {
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = bdbOrm.driver.Ed25519Keypair()
+    const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
     return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
@@ -80,7 +80,7 @@ test('Burn asset', t => {
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = bdbOrm.driver.Ed25519Keypair()
+    const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
     return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
