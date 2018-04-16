@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-namespace
 import * as driver from 'bigchaindb-driver'
 import Connection from './connection'
 import OrmObject from './ormobject'
