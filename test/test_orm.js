@@ -1,6 +1,5 @@
 import test from 'ava'
 
-import * as driver from 'bigchaindb-driver' // eslint-disable-line import/no-namespace
 import Orm from '../src/index'
 
 
@@ -13,8 +12,8 @@ test('Create asset with data', t => {
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = new driver.Ed25519Keypair()
-    return bdbOrm.myModel
+    const aliceKeypair = bdbOrm.driver.Ed25519Keypair()
+    return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
             data: expected
@@ -32,8 +31,8 @@ test('Retrieve asset', t => {
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = new driver.Ed25519Keypair()
-    return bdbOrm.myModel
+    const aliceKeypair = bdbOrm.driver.Ed25519Keypair()
+    return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
             data: expected
@@ -55,8 +54,8 @@ test('Append asset', t => {
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = new driver.Ed25519Keypair()
-    return bdbOrm.myModel
+    const aliceKeypair = bdbOrm.driver.Ed25519Keypair()
+    return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
             data: { key: 'dataValue', keyToUpdate: 'dataUpdatableValue' }
@@ -81,8 +80,8 @@ test('Burn asset', t => {
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = new driver.Ed25519Keypair()
-    return bdbOrm.myModel
+    const aliceKeypair = bdbOrm.driver.Ed25519Keypair()
+    return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
             data: { key: 'dataValue' }

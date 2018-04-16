@@ -44,7 +44,7 @@
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js ./{src,test}",
     "build": "npm run clean && npm run build:cjs && npm run build:dist",
-    "build:bundle": "webpack",
+    "build:bundle": "cross-env NODE_ENV=production webpack -p",
     "build:cjs": "cross-env BABEL_ENV=cjs babel ./src -d dist/node",
     "build:dist": "cross-env NODE_ENV=production webpack -p",
     "clean": "rimraf dist/bundle dist/node",
