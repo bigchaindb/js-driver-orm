@@ -6,7 +6,7 @@ import Orm from '../src/index'
 test('Create asset with data', t => {
     const expected = { key: 'dataValue' }
 
-    const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/', {
         app_id: '',
         app_key: ''
     })
@@ -25,7 +25,7 @@ test('Create asset with data', t => {
 test('Retrieve asset', t => {
     const expected = { key: 'dataValue' }
 
-    const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/', {
         app_id: '',
         app_key: ''
     })
@@ -48,7 +48,7 @@ test('Append asset', t => {
         newKey: 'newDataValue'
     }
 
-    const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/', {
         app_id: '',
         app_key: ''
     })
@@ -74,7 +74,7 @@ test('Append asset', t => {
 test('Burn asset', t => {
     const expected = { key: 'dataValue', status: 'BURNED' }
 
-    const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/', {
         app_id: '',
         app_key: ''
     })
