@@ -1,20 +1,19 @@
 import test from 'ava'
 
-import * as driver from 'bigchaindb-driver' // eslint-disable-line import/no-namespace
 import Orm from '../src/index'
 
 
 test('Create asset with data', t => {
     const expected = { key: 'dataValue' }
 
-    const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/', {
         app_id: '',
         app_key: ''
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = new driver.Ed25519Keypair()
-    return bdbOrm.myModel
+    const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
+    return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
             data: expected
@@ -26,19 +25,19 @@ test('Create asset with data', t => {
 test('Retrieve asset', t => {
     const expected = { key: 'dataValue' }
 
-    const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/', {
         app_id: '',
         app_key: ''
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = new driver.Ed25519Keypair()
-    return bdbOrm.myModel
+    const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
+    return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
             data: expected
         })
-        .then(asset => bdbOrm.myModel.retrieve(asset.id))
+        .then(asset => bdbOrm.models.myModel.retrieve(asset.id))
         .then(res => t.deepEqual(res[0].data, expected))
 })
 
@@ -49,14 +48,14 @@ test('Append asset', t => {
         newKey: 'newDataValue'
     }
 
-    const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/', {
         app_id: '',
         app_key: ''
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = new driver.Ed25519Keypair()
-    return bdbOrm.myModel
+    const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
+    return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
             data: { key: 'dataValue', keyToUpdate: 'dataUpdatableValue' }
@@ -75,14 +74,14 @@ test('Append asset', t => {
 test('Burn asset', t => {
     const expected = { key: 'dataValue', status: 'BURNED' }
 
-    const bdbOrm = new Orm('http://127.0.0.1:9984/api/v1/', {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/', {
         app_id: '',
         app_key: ''
     })
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
-    const aliceKeypair = new driver.Ed25519Keypair()
-    return bdbOrm.myModel
+    const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
+    return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
             data: { key: 'dataValue' }

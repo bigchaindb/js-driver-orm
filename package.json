@@ -19,7 +19,7 @@
   "devDependencies": {
     "ava": "^0.25.0",
     "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.2.2",
+    "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
@@ -33,18 +33,18 @@
     "cross-env": "^5.1.4",
     "eslint": "^4.19.1",
     "eslint-config-ascribe": "^3.0.5",
-    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-import": "^2.11.0",
     "nyc": "^11.6.0",
-    "release-it": "^7.2.1",
+    "release-it": "^7.4.0",
     "rimraf": "^2.6.2",
-    "sinon": "^4.4.9",
-    "webpack": "^4.4.1",
-    "webpack-cli": "^2.0.13"
+    "sinon": "^4.5.0",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
   },
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js ./{src,test}",
     "build": "npm run clean && npm run build:cjs && npm run build:dist",
-    "build:bundle": "webpack",
+    "build:bundle": "cross-env NODE_ENV=production webpack -p",
     "build:cjs": "cross-env BABEL_ENV=cjs babel ./src -d dist/node",
     "build:dist": "cross-env NODE_ENV=production webpack -p",
     "clean": "rimraf dist/bundle dist/node",

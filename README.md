@@ -53,7 +53,7 @@ const bdbOrm = new Orm(
 // note: cannot be changed once set!
 bdbOrm.define("myModel", "https://schema.org/v1/myModel")
 // create a public and private key for Alice
-const aliceKeypair = new driver.Ed25519Keypair()
+const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
 ```
 
 ## Examples
@@ -64,7 +64,7 @@ All examples need bdbOrm initialized as described in usage
 
 ```javascript
 // from the defined models in our bdbOrm we create an asset with Alice as owner
-bdbOrm.myModel
+bdbOrm.models.myModel
     .create({
         keypair: aliceKeypair,
         data: { key: 'dataValue' }
@@ -87,7 +87,7 @@ bdbOrm.myModel
 ```javascript
 // get all objects with retrieve()
 // or get a specific object with retrieve(object.id)
-bdbOrm.myModel
+bdbOrm.models.myModel
     .retrieve()
     .then(assets => {
         // assets is an array of myModel
@@ -100,7 +100,7 @@ bdbOrm.myModel
 
 ```javascript
 // create an asset with Alice as owner
-bdbOrm.myModel
+bdbOrm.models.myModel
     .create({
         keypair: aliceKeypair,
         data: { key: 'dataValue' }
@@ -127,7 +127,7 @@ bdbOrm.myModel
 
 ```javascript
 // create an asset with Alice as owner
-bdbOrm.myModel
+bdbOrm.models.myModel
     .create({
         keypair: aliceKeypair,
         data: { key: 'dataValue' }
@@ -148,7 +148,7 @@ bdbOrm.myModel
 ## License
 
 ```
-Copyright 2017 BigchainDB GmbH
+Copyright 2018 BigchainDB GmbH
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
