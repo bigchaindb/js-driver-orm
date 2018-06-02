@@ -39,7 +39,7 @@
     "rimraf": "^2.6.2",
     "sinon": "^4.5.0",
     "webpack": "^4.5.0",
-    "webpack-cli": "^2.0.14"
+    "webpack-cli": "^3.0.0"
   },
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js ./{src,test}",
