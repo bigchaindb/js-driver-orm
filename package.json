@@ -34,6 +34,7 @@
     "eslint": "^4.19.1",
     "eslint-config-ascribe": "^3.0.5",
     "eslint-plugin-import": "^2.11.0",
+    "jsdoc": "^3.5.5",
     "nyc": "^11.6.0",
     "release-it": "^7.4.0",
     "rimraf": "^2.6.2",
@@ -54,7 +55,8 @@
     "release": "./node_modules/release-it/bin/release-it.js --src.tagName='v%s' --github.release --npm.publish --non-interactive",
     "release-minor": "./node_modules/release-it/bin/release-it.js minor --src.tagName='v%s' --github.release --npm.publish --non-interactive",
     "release-major": "./node_modules/release-it/bin/release-it.js major --src.tagName='v%s' --github.release --npm.publish --non-interactive",
-    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov"
+    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
+    "generate-doc": "./node_modules/jsdoc/jsdoc.js -R README.md src/ -d doc/"
   },
   "keywords": [
     "bigchaindb",

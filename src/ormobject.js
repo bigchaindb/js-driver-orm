@@ -1,10 +1,23 @@
+/**
+ * This module covers core CRAB operations.
+ * @module
+ */
 import uuid from 'uuid/v4'
 
 // The likelihood to generate a vanity address that is 11 times "Burn" is extremely low:
 // - https://en.bitcoin.it/wiki/Vanitygen#Use_of_vanitygen_to_try_to_attack_addresses
 const BURN_ADDRESS = 'BurnBurnBurnBurnBurnBurnBurnBurnBurnBurnBurn'
 
+/** core class for CRAB operations. */
 export default class OrmObject {
+    /**
+     * constructor for this class
+     * @param {string} modelName - name of the model
+     * @param {string} modelSchema - additional details for this model
+     * @param {object} connection - connection object for bigchaindb network
+     * @param {string} appId -  id of the app under use
+     * @param {object} transactionList - list of transactions
+     */
     constructor(modelName, modelSchema, connection, appId = '', transactionList = []) {
         this._name = modelName
         this._schema = modelSchema
@@ -17,6 +30,10 @@ export default class OrmObject {
         }
     }
 
+    /**
+     * retrieves the asset for a given input query
+     * @param {object} input - query to retrieve asset
+     */
     retrieve(input) {
         const query = input || `"${this._appId}-${this._name}"`
         return this._connection.searchAssets(`"${query}"`)
@@ -33,6 +50,10 @@ export default class OrmObject {
                             )))))
     }
 
+    /**
+     * creates the asset in bigchaindb
+     * @param {object} inputs - object containing keypairs and data for the asset
+     */
     create(inputs) {
         if (inputs === undefined) {
             console.error('inputs missing')
@@ -59,6 +80,10 @@ export default class OrmObject {
                 ))))
     }
 
+    /**
+     * appends (i.e. transfer transaction) the asset in bigchaindb
+     * @param {object} inputs - object incl. public key of new owner and private key for current owner
+     */
     append(inputs) {
         if (inputs === undefined) {
             console.error('inputs missing')
@@ -83,6 +108,10 @@ export default class OrmObject {
                         ))))
     }
 
+    /**
+     * burns the asset to unretrievable address
+     * @param {object} inputs - object containing details of burn address (i.e. public key)
+     */
     burn(inputs) {
         if (inputs === undefined) {
             console.error('inputs missing')
