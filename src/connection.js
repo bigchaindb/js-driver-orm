@@ -1,7 +1,5 @@
 import * as driver from 'bigchaindb-driver' // eslint-disable-line import/no-namespace
 
-
-
 export default class Connection {
     constructor(path, headers = {}) {
         this.path = path
