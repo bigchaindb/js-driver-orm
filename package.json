@@ -14,7 +14,7 @@
   "browser": "./dist/browser/bigchaindb-orm.cjs2.min.js",
   "dependencies": {
     "bigchaindb-driver": "^4.1.0",
-    "uuid": "^3.2.1"
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "ava": "^0.25.0",
