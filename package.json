@@ -13,7 +13,7 @@
   "main": "./dist/node/index.js",
   "browser": "./dist/browser/bigchaindb-orm.cjs2.min.js",
   "dependencies": {
-    "bigchaindb-driver": "^4.0.0",
+    "bigchaindb-driver": "^4.1.0",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
