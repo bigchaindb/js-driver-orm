@@ -77,7 +77,8 @@
     "tap": true,
     "powerAssert": false,
     "require": [
-      "babel-register"
+      "babel-register",
+      "babel-polyfill"
     ],
     "babel": "inherit"
   }

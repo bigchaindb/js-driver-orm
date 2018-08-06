@@ -76,7 +76,7 @@ if (PRODUCTION) {
 }
 
 const configBoilerplate = {
-    entry: [PATHS.ENTRY],
+    entry: ['babel-polyfill', PATHS.ENTRY],
 
     devtool: PRODUCTION ? '#source-map' : '#inline-source-map',
 
