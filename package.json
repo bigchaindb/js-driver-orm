@@ -42,7 +42,7 @@
     "webpack-cli": "^2.0.14"
   },
   "scripts": {
-    "lint": "eslint ./{src,test}",
+    "lint": "eslint ./{src,test}/*.js",
     "build": "npm run clean && npm run build:cjs && npm run build:dist",
     "build:bundle": "cross-env NODE_ENV=production webpack -p",
     "build:cjs": "cross-env BABEL_ENV=cjs babel ./src -d dist/node",
