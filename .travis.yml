@@ -5,7 +5,11 @@ services:
 
 language: node_js
 
-node_js: 7
+node_js:
+  - 7
+  - 8
+  - 9
+  - 10
 
 cache:
     directories:

@@ -1,7 +1,8 @@
+import sinon from 'sinon'
 import test from 'ava'
 
 import Orm from '../src/index'
-
+import Connection from '../src/connection'
 
 test('Create asset with data', t => {
     const expected = { key: 'dataValue' }
@@ -20,7 +21,6 @@ test('Create asset with data', t => {
         })
         .then(res => t.deepEqual(res.data, expected))
 })
-
 
 test('Retrieve asset', t => {
     const expected = { key: 'dataValue' }
@@ -96,3 +96,162 @@ test('Burn asset', t => {
                 .outputs[0].public_keys[0], aliceKeypair.publicKey)
         })
 })
+
+test('Orm stores notices the headers appId', t => {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/', { app_id: 'AppID' })
+
+    t.is(bdbOrm.appId, 'AppID')
+})
+
+test.serial('Orm console logs an error if inputs is undefined calling create', t => {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/')
+
+    t.context.consoleError = console.error
+    console.error = sinon.spy()
+
+    bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
+
+    try {
+        bdbOrm.models.myModel.create()
+    } catch (e) {
+        // noop
+    }
+
+    t.true(console.error.calledOnce)
+    console.error = t.context.consoleError
+})
+
+test.serial('Orm console logs an error if inputs is undefined calling append', t => {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/')
+
+    t.context.consoleError = console.error
+    console.error = sinon.spy()
+
+    bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
+
+    try {
+        bdbOrm.models.myModel.append()
+    } catch (e) {
+        // noop
+    }
+
+    t.true(console.error.calledOnce)
+    console.error = t.context.consoleError
+})
+
+test.serial('Orm console logs an error if inputs is undefined calling burn', t => {
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/')
+
+    t.context.consoleError = console.error
+    console.error = sinon.spy()
+
+    bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
+
+    try {
+        bdbOrm.models.myModel.burn()
+    } catch (e) {
+        // noop
+    }
+
+    t.true(console.error.calledOnce)
+    console.error = t.context.consoleError
+})
+
+test('Connection returns transaction id as assetId when transaction is a CREATE', t => {
+    const tx = { asset: { id: 'a-fake-asset-id' }, operation: 'CREATE', id: 'a-fake-tx-id' }
+    const conn = new Connection('/')
+
+    t.is(conn.getAssetId(tx), tx.id)
+})
+
+test('Connection returns asset id as assetId when transaction is not a CREATE', t => {
+    const tx = { asset: { id: 'a-fake-asset-id' }, operation: 'OTHER', id: 'a-fake-tx-id' }
+    const conn = new Connection('/')
+
+    t.is(conn.getAssetId(tx), tx.asset.id)
+})
+
+test('Connection proxies getBlock to bigchaindb-driver', t => {
+    const conn = new Connection('/')
+    conn.conn = { getBlock(id) { return id === 'a-fake-id' } }
+
+    t.true(conn.getBlock('a-fake-id'))
+})
+
+test('Connection proxies getTransaction to bigchaindb-driver', t => {
+    const conn = new Connection('/')
+    conn.conn = { getTransaction(id) { return id === 'a-fake-id' } }
+
+    t.true(conn.getTransaction('a-fake-id'))
+})
+
+test('Connection proxies listOutputs to bigchaindb-driver', t => {
+    const conn = new Connection('/')
+    conn.conn = { listOutputs(pk, spent) { return pk === 'key' && spent === 100 } }
+
+    t.true(conn.listOutputs('key', 100))
+})
+
+test('Connection proxies listTransactions to bigchaindb-driver', t => {
+    const conn = new Connection('/')
+    conn.conn = { listTransactions(id, op) { return id === 'a-fake-id' && op === 'CREATE' } }
+
+    t.true(conn.listTransactions('a-fake-id', 'CREATE'))
+})
+
+test('Connection proxies listBlocks to bigchaindb-driver', t => {
+    const conn = new Connection('/')
+    const expected = ['one', 'two']
+    const getBlock = sinon.stub()
+    const listBlocks = sinon.stub()
+    conn.conn = { getBlock, listBlocks }
+
+    getBlock.withArgs(1).returns(new Promise((resolve) => { resolve('one') }))
+    getBlock.withArgs(2).returns(new Promise((resolve) => { resolve('two') }))
+    listBlocks.returns(new Promise((resolve) => { resolve([1, 2]) }))
+
+    conn.listBlocks('a-fake-tx-id').then((result) => {
+        t.is(result, expected)
+    })
+})
+
+test('Connection proxies listVotes to bigchaindb-driver', t => {
+    const conn = new Connection('/')
+    conn.conn = { listVotes(id) { return id === 'a-fake-id' } }
+
+    t.true(conn.listVotes('a-fake-id'))
+})
+
+test('Connection#createTransaction rejects the promise returned on error', async t => {
+    const conn = new Connection('/')
+
+    await t.throws(conn.createTransaction(1, 2, 3, 4))
+})
+
+test('Connection#transferTransaction rejects the promise returned on error', async t => {
+    const conn = new Connection('/')
+
+    await t.throws(conn.transferTransaction(1, 2, 3, 4, 5))
+})
+
+test.serial(
+    'Connection#getSortedTransactions logs an error if none of the transactions are unspents',
+    async t => {
+        const conn = new Connection('/')
+        const txList = { filter: sinon.stub(), forEach: sinon.stub(), length: 2 }
+
+        t.context.consoleError = console.error
+        console.error = sinon.spy()
+
+        conn.conn = {}
+        conn.conn.listTransactions = sinon.stub()
+        conn.conn.listTransactions.returns(new Promise((resolve) => { resolve(txList) }))
+        txList.forEach.returns(true)
+        txList.filter.returns([])
+
+        await conn.getSortedTransactions()
+
+        t.true(console.error.calledOnce)
+        console.error = t.context.consoleError
+    }
+)
