@@ -19,23 +19,6 @@ export default class Connection {
         return this.conn.listTransactions(assetId, operation)
     }
 
-    listOutputs(publicKey, spent) {
-        return this.conn.listOutputs(publicKey, spent)
-    }
-
-    getBlock(blockId) {
-        return this.conn.getBlock(blockId)
-    }
-
-    listBlocks(transactionId) {
-        return this.conn.listBlocks(transactionId)
-            .then(blockIds => Promise.all(blockIds.map(blockId => this.conn.getBlock(blockId))))
-    }
-
-    listVotes(blockId) {
-        return this.conn.listVotes(blockId)
-    }
-
     searchAssets(text) {
         return this.conn.searchAssets(text)
     }

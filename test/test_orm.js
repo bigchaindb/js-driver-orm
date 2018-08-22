@@ -190,13 +190,6 @@ test('Connection returns asset id as assetId when transaction is not a CREATE', 
     t.is(conn.getAssetId(tx), tx.asset.id)
 })
 
-test('Connection proxies getBlock to bigchaindb-driver', t => {
-    const conn = new Connection('/')
-    conn.conn = { getBlock(id) { return id === 'a-fake-id' } }
-
-    t.true(conn.getBlock('a-fake-id'))
-})
-
 test('Connection proxies getTransaction to bigchaindb-driver', t => {
     const conn = new Connection('/')
     conn.conn = { getTransaction(id) { return id === 'a-fake-id' } }
@@ -204,41 +197,11 @@ test('Connection proxies getTransaction to bigchaindb-driver', t => {
     t.true(conn.getTransaction('a-fake-id'))
 })
 
-test('Connection proxies listOutputs to bigchaindb-driver', t => {
-    const conn = new Connection('/')
-    conn.conn = { listOutputs(pk, spent) { return pk === 'key' && spent === 100 } }
-
-    t.true(conn.listOutputs('key', 100))
-})
-
 test('Connection proxies listTransactions to bigchaindb-driver', t => {
     const conn = new Connection('/')
     conn.conn = { listTransactions(id, op) { return id === 'a-fake-id' && op === 'CREATE' } }
 
     t.true(conn.listTransactions('a-fake-id', 'CREATE'))
-})
-
-test('Connection proxies listBlocks to bigchaindb-driver', t => {
-    const conn = new Connection('/')
-    const expected = ['one', 'two']
-    const getBlock = sinon.stub()
-    const listBlocks = sinon.stub()
-    conn.conn = { getBlock, listBlocks }
-
-    getBlock.withArgs(1).returns(new Promise((resolve) => { resolve('one') }))
-    getBlock.withArgs(2).returns(new Promise((resolve) => { resolve('two') }))
-    listBlocks.returns(new Promise((resolve) => { resolve([1, 2]) }))
-
-    conn.listBlocks('a-fake-tx-id').then((result) => {
-        t.is(result, expected)
-    })
-})
-
-test('Connection proxies listVotes to bigchaindb-driver', t => {
-    const conn = new Connection('/')
-    conn.conn = { listVotes(id) { return id === 'a-fake-id' } }
-
-    t.true(conn.listVotes('a-fake-id'))
 })
 
 test('Connection#createTransaction rejects the promise returned on error', async t => {
