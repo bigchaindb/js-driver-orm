@@ -21,7 +21,7 @@
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.6",
     "babel-loader": "^7.1.5",
-    "babel-plugin-add-module-exports": "^0.3.0",
+    "babel-plugin-add-module-exports": "^0.3.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
@@ -39,14 +39,15 @@
     "rimraf": "^2.6.2",
     "sinon": "^5.0.1",
     "webpack": "^4.16.3",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.0",
+    "webpack-merge": "^4.1.4"
   },
   "scripts": {
     "lint": "eslint ./{src,test}/*.js",
     "build": "npm run clean && npm run build:cjs && npm run build:dist",
-    "build:bundle": "cross-env NODE_ENV=production webpack -p",
+    "build:bundle": "cross-env NODE_ENV=production webpack",
     "build:cjs": "cross-env BABEL_ENV=cjs babel ./src -d dist/node",
-    "build:dist": "cross-env NODE_ENV=production webpack -p",
+    "build:dist": "cross-env NODE_ENV=production webpack --mode production",
     "clean": "rimraf dist/bundle dist/node",
     "test": "npm run lint && nyc ava test/ && npm run thanks && npm run report-coverage",
     "thanks": "cowsay Hi, thanks for your interest in BigchainDB. We appreciate your contribution!",

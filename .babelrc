@@ -1,10 +1,12 @@
 {
-    "presets": ["env"],
-
+    "presets": [
+        "env"
+    ],
     "plugins": [
         "transform-export-extensions",
         "transform-object-assign",
-        "transform-object-rest-spread"
+        "transform-object-rest-spread",
+        ["transform-runtime", { "polyfill": false, "regenerator": true }]
     ],
-    "sourceMaps": true,
+    "sourceMaps": true
 }

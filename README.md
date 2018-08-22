@@ -19,7 +19,7 @@ CRAB is the CRUD model in databases applied to blockchains:
 
 ## Breaking changes
 
-- **Version 3.0** of js-driver-orm changes namespacing of data storage and retrieval. Using new version with old data will brake it!
+- **Version 3.x ** of js-driver-orm changes namespacing of data storage and retrieval. Using new version with old data will brake it!
 
 ## Table of Contents
 

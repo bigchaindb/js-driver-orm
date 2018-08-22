@@ -4,11 +4,21 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof2 = require('babel-runtime/helpers/typeof');
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _bigchaindbDriver = require('bigchaindb-driver');
 
@@ -16,22 +26,21 @@ var driver = _interopRequireWildcard(_bigchaindbDriver);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // eslint-disable-line import/no-namespace
 
 var Connection = function () {
     function Connection(path) {
         var headers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-        _classCallCheck(this, Connection);
+        (0, _classCallCheck3.default)(this, Connection);
 
         this.path = path;
-        this.headers = _extends({}, headers);
+        this.headers = (0, _extends3.default)({}, headers);
         this.conn = new driver.Connection(path, headers);
     }
 
-    _createClass(Connection, [{
+    (0, _createClass3.default)(Connection, [{
         key: 'getAssetId',
         value: function getAssetId(tx) {
             // eslint-disable-line class-methods-use-this
@@ -46,32 +55,6 @@ var Connection = function () {
         key: 'listTransactions',
         value: function listTransactions(assetId, operation) {
             return this.conn.listTransactions(assetId, operation);
-        }
-    }, {
-        key: 'listOutputs',
-        value: function listOutputs(publicKey, spent) {
-            return this.conn.listOutputs(publicKey, spent);
-        }
-    }, {
-        key: 'getBlock',
-        value: function getBlock(blockId) {
-            return this.conn.getBlock(blockId);
-        }
-    }, {
-        key: 'listBlocks',
-        value: function listBlocks(transactionId) {
-            var _this = this;
-
-            return this.conn.listBlocks(transactionId).then(function (blockIds) {
-                return Promise.all(blockIds.map(function (blockId) {
-                    return _this.conn.getBlock(blockId);
-                }));
-            });
-        }
-    }, {
-        key: 'listVotes',
-        value: function listVotes(blockId) {
-            return this.conn.listVotes(blockId);
         }
     }, {
         key: 'searchAssets',
@@ -153,7 +136,7 @@ var Connection = function () {
                         };
                     }();
 
-                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                    if ((typeof _ret === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret)) === "object") return _ret.v;
                 } else {
                     console.error('something went wrong while sorting transactions', txList, inputTransactions);
                 }
@@ -161,7 +144,6 @@ var Connection = function () {
             });
         }
     }]);
-
     return Connection;
 }();
 
