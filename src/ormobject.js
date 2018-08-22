@@ -5,21 +5,26 @@ import uuid from 'uuid/v4'
 const BURN_ADDRESS = 'BurnBurnBurnBurnBurnBurnBurnBurnBurnBurnBurn'
 
 export default class OrmObject {
-    constructor(modelName, modelSchema, connection, appId = '', transactionList = []) {
+    constructor(modelName, modelSchema, connection, appId = 'global', transactionList = []) {
         this._name = modelName
         this._schema = modelSchema
         this._connection = connection
         this._appId = appId
         if (transactionList.length) {
             this.transactionHistory = transactionList
-            this.id = transactionList[0].asset.data[`${this._appId}-${this._name}`].id
+            this.id = transactionList[0].asset.data.id
             this.data = Object.assign({}, ...transactionList.map(tx => (tx.metadata)))
         }
     }
 
-    retrieve(input) {
-        const query = input || `"${this._appId}-${this._name}"`
-        return this._connection.searchAssets(`"${query}"`)
+    retrieve(input = undefined) {
+        let query
+        if (input !== undefined && input !== '') {
+            query = `"${input}"`
+        } else {
+            query = `"id:${this._appId}:${this._name}:"`
+        }
+        return this._connection.searchAssets(query)
             .then(assets =>
                 Promise.all(assets.map(asset =>
                     this._connection.getSortedTransactions(asset.id)
@@ -37,10 +42,9 @@ export default class OrmObject {
         if (inputs === undefined) {
             console.error('inputs missing')
         }
-        const assetPayload = {}
-        assetPayload[`${this._appId}-${this._name}`] = {
+        const assetPayload = {
             'schema': this._schema,
-            'id': `id:${this._appId}:${uuid()}`
+            'id': `id:${this._appId}:${this._name}:${uuid()}`
         }
         return this._connection
             .createTransaction(

@@ -125,6 +125,8 @@ bdbOrm.models.myModel
 ### Example: Burn an asset
 > "Delete" (Database) => "Burn" (Blockchain)
 
+:exclamation:Burning assets does not delete them! It moves control of asset from users keypair to unfulfillable one.:exclamation:
+
 ```javascript
 // create an asset with Alice as owner
 bdbOrm.models.myModel

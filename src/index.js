@@ -6,9 +6,10 @@ import OrmObject from './ormobject'
 export default class Orm {
     constructor(connectionUrl, headers) {
         this.connection = new Connection(connectionUrl, headers)
-        this.appId = ''
-        if (headers && headers.app_id) {
+        if (headers && headers.app_id !== undefined && headers.app_id !== '') {
             this.appId = headers.app_id
+        } else {
+            this.appId = 'global'
         }
         this.models = []
         this.driver = driver

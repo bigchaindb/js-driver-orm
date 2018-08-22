@@ -41,6 +41,25 @@ test('Retrieve asset', t => {
         .then(res => t.deepEqual(res[0].data, expected))
 })
 
+test('Retrieve multiple asset', t => {
+    const expected = { key: 'dataValue' }
+
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/', {
+        app_id: '',
+        app_key: ''
+    })
+    bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
+    // create a public and private key for Alice
+    const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
+    return bdbOrm.models.myModel
+        .create({
+            keypair: aliceKeypair,
+            data: { key: 'dataValue' }
+        })
+        .then(() => bdbOrm.models.myModel.retrieve()
+            .then(res => t.deepEqual(res[0].data, expected)))
+})
+
 test('Append asset', t => {
     const expected = {
         key: 'dataValue',
