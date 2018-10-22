@@ -38,13 +38,13 @@ export default class OrmObject {
                             )))))
     }
 
-    create(inputs) {
+    create(inputs, id = uuid()) {
         if (inputs === undefined) {
             console.error('inputs missing')
         }
         const assetPayload = {
             'schema': this._schema,
-            'id': `id:${this._appId}:${this._name}:${uuid()}`
+            'id': `id:${this._appId}:${this._name}:${id}`
         }
         return this._connection
             .createTransaction(
