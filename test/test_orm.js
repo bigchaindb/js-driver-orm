@@ -57,7 +57,7 @@ test('Retrieve multiple asset', t => {
             data: { key: 'dataValue' }
         })
         .then(() => bdbOrm.models.myModel.retrieve()
-            .then(res => t.deepEqual(res[0].data, expected)))
+            .then(res => t.deepEqual(res[res.length - 1].data, expected)))
 })
 
 test('Append asset', t => {
