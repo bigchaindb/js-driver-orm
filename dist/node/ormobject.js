@@ -75,12 +75,14 @@ var OrmObject = function () {
         value: function create(inputs) {
             var _this2 = this;
 
+            var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (0, _v2.default)();
+
             if (inputs === undefined) {
                 console.error('inputs missing');
             }
             var assetPayload = {
                 'schema': this._schema,
-                'id': 'id:' + this._appId + ':' + this._name + ':' + (0, _v2.default)()
+                'id': 'id:' + this._appId + ':' + this._name + ':' + id
             };
             return this._connection.createTransaction(inputs.keypair.publicKey, inputs.keypair.privateKey, assetPayload, inputs.data).then(function (tx) {
                 return Promise.resolve(_this2._connection.getSortedTransactions(tx.id).then(function (txList) {
